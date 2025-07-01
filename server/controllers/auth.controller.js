@@ -36,4 +36,26 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+//add an admin into the database
+const addAdmin = async (req, res) => {
+  const { name, email, password, phoneNumber, address } = req.body;
+  try {
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(400).json({ message: "Email already used" });
+
+    const hashed = await bcrypt.hash(password, 10);
+    const admin = await User.create({
+      name,
+      email,
+      password: hashed,
+      phoneNumber,
+      address,
+      role: "admin", // Set role to admin
+    });
+    res.status(201).json({ message: "Admin registered successfully!!!" + admin.name });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, addAdmin };

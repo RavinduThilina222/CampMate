@@ -20,4 +20,37 @@ const getUserBookings = async (req, res) => {
   }
 };
 
-module.exports = { createBooking, getUserBookings };
+// updating or deleting bookings
+const updateBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      req.body,
+      { new: true }
+    );
+    if (!updatedBooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    res.json(updatedBooking);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+const deleteBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const deletedBooking = await Booking.findByIdAndDelete(bookingId);
+    if (!deletedBooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    res.json({ message: "Booking deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+module.exports = { createBooking, getUserBookings, updateBooking, deleteBooking };

@@ -22,4 +22,12 @@ const deleteGear = async (req, res) => {
   res.json({ message: "Deleted" });
 };
 
-module.exports = { getAllGear, getGearById, addGear, deleteGear };
+const updateGear = async (req, res) => {
+  const gear = await Gear.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  if (!gear) return res.status(404).json({ message: "Not found" });
+  res.json(gear);
+};
+
+module.exports = { getAllGear, getGearById, addGear, deleteGear, updateGear };

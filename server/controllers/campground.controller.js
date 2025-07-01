@@ -1,3 +1,4 @@
+const campground = require("../models/campground");
 const Campground = require("../models/campground");
 
 const getAllCampgrounds = async (req, res) => {
@@ -19,4 +20,22 @@ const addCampground = async (req, res) => {
   }
 };
 
-module.exports = { getAllCampgrounds, addCampground };
+// update Campground
+const updateCampground = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedCampground = await Campground.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedCampground) {
+      return res.status(404).json({ message: "Campground not found" });
+    }
+    res.json(updatedCampground);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getAllCampgrounds, addCampground, updateCampground };
