@@ -73,12 +73,15 @@ const campgroundSchema = new mongoose.Schema({
     default: 0
   },
   season: {
-    openDate: Date,
-    closeDate: Date,
-    isYearRound: {
-      type: Boolean,
-      default: false
-    }
+    type: String,
+    required: [true, "Season is required"],
+    enum: {
+      values: [
+        "north-east monsoon",
+        "south-west monsoon",
+      ]
+    },
+    default: "summer"
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

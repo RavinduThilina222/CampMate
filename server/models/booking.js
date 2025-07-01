@@ -14,8 +14,13 @@ const bookingSchema = new mongoose.Schema({
       totalPrice: Number,
     },
   ],
+  gearItemLocation:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: "RentalLocation",
+  },
   totalAmount: Number,
-  status: { type: String, default: "Pending" }, // 'Confirmed', 'Returned'
+  status: { type: String, default: "Pending" }, // 'Confirmed', 'Returned', 'Cancelled','Rented'
+  paymentStatus: { type: String, default: "Pending" }, // 'Paid', 'Unpaid'
   deliveryMethod: String,
   notes: String,
   createdAt: { type: Date, default: Date.now },

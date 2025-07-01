@@ -12,6 +12,10 @@ const gearSchema = new mongoose.Schema({
     required: [true, "Description is required"],
     maxlength: [500, "Description cannot exceed 500 characters"]
   },
+  rentalLocations: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "RentalLocation"
+  }],
   category: {
     type: String,
     required: [true, "Category is required"],
